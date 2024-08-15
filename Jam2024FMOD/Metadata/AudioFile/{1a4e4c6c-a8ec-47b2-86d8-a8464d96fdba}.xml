@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{1a4e4c6c-a8ec-47b2-86d8-a8464d96fdba}">
+		<property name="assetPath">
+			<value>(no copyright music) jazz type beat “bread”  royalty free youtube music  prod. by lukrembo - 128.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>160.07836734693876</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{ab1e0580-6d0b-4ccc-a5dd-a797f39caa1d}</destination>
+		</relationship>
+	</object>
+</objects>
