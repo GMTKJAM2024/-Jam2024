@@ -4,7 +4,7 @@ using Cinemachine;
 using Sirenix.OdinInspector; // Thêm namespace Odin Inspector
 using UnityEngine;
 
-public class PufferFishController : MonoBehaviour
+public class PufferFishController : SerializedMonoBehaviour
 {
     #region Serialized Fields
 
