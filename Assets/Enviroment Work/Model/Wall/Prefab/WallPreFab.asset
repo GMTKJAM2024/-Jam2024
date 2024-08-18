@@ -38,7 +38,8 @@ MonoBehaviour:
     prefab: {fileID: 3753184858576927932, guid: b0dc0c79c405c6d4089023bb85763766,
       type: 3}
   - name: HalfWallQuar
-    prefab: {fileID: 0}
+    prefab: {fileID: 5221851982158325808, guid: 71cb9a278c3500b4cb933c57668391ce,
+      type: 3}
   - name: HalfWall
     prefab: {fileID: 7159540738705993374, guid: ab663e28a1e8c704c872d2b43f98ddc1,
       type: 3}

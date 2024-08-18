@@ -13,4 +13,14 @@ public class PrefabList : ScriptableObject
     }
 
     public List<PrefabInfo> prefabList;
+
+    public void GetPrefabName()
+    {
+        for (int i = 0; i < prefabList.Count; i++)
+        {
+            PrefabInfo prefabInfo = prefabList[i];
+            prefabInfo.name = prefabInfo.prefab.name;
+            prefabList[i] = prefabInfo; // Assign the modified struct back to the list
+        }
+    }
 }
