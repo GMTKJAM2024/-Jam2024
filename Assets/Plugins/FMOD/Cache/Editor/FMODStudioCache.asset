@@ -22,7 +22,7 @@ MonoBehaviour:
   - {fileID: 2075758612712609115}
   StringsBanks:
   - {fileID: 4886286442266231941}
-  cacheTime: 638593151796707863
+  cacheTime: 638593174413196043
   cacheVersion: 131618
 --- !u!114 &2075758612712609115
 MonoBehaviour:
@@ -39,7 +39,7 @@ MonoBehaviour:
   Path: Jam2024FMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638593151796658418
+  lastModified: 638593174413196043
   FileSizes:
   - Name: Desktop
     Value: 1969024
@@ -86,7 +86,7 @@ MonoBehaviour:
   Path: Jam2024FMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638593151796707863
+  lastModified: 638593174413196043
   FileSizes:
   - Name: Desktop
     Value: 762
