@@ -72,6 +72,8 @@ public class PufferFishController : MonoBehaviour
 
     void Update()
     {
+        HandleInput();
+        HandleZoom();
         if (popping)
         {
             return;
@@ -83,11 +85,6 @@ public class PufferFishController : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
-    {
-        HandleInput();
-        HandleZoom();
-    }
 
     #endregion
 
