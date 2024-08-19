@@ -11,6 +11,7 @@ public class PufferFishController : SerializedMonoBehaviour
     #region Serialized Fields
 
     [TitleGroup("Character Settings")]
+    [SerializeField] PufferParticleController _particleController;
     [FoldoutGroup("Character Settings/Movement Settings")]
     [SerializeField] private Rigidbody rb;
     [FoldoutGroup("Character Settings/Movement Settings")]
@@ -54,21 +55,61 @@ public class PufferFishController : SerializedMonoBehaviour
     [SerializeField] private float boostForce = 5f;
     [FoldoutGroup("Stats/Jump")]
     [SerializeField] private float jumpForce = 5f;
+    [FoldoutGroup("Stats/Drag")]
+    [SerializeField, ReadOnly] private float defaultDrag, defaultAngularDrag;
+    [FoldoutGroup("Stats/Drag")]
+    [SerializeField] private float PopDrag = 0.1f, PopAngularDrag = 0.05f;
+    [FoldoutGroup("Stats/Slope")]
+    public float maxSlopeAngle = 70f, SlopeAngle;
+    [FoldoutGroup("Stats/Slope")] 
+    public bool debugSlope, movingUpSlope;
 
 
     [FoldoutGroup("Debug")]
     public bool popping, isGrounded, allowFootPlacement;
     [FoldoutGroup("Debug")]
+    public bool debugDownKey;
+    [FoldoutGroup("Debug")]
     public float valueX, valueY;
     [FoldoutGroup("Debug")]
     [ReadOnly] [SerializeField] float currentSpeed;
+    [FoldoutGroup("Debug")]
+    [SerializeField] bool previousSpeedState, isSpeeding; 
+    
     private RaycastHit hit;
     private Vector3 defaultScale;
+    private Vector3 PlayerVector;
     private CamShake camShaker;
+    
+    //Slope
+    private RaycastHit slopeHit;
+    private bool exitingSlope;
 
     #endregion
 
+    #region Calculate Var
 
+    //Calculate var
+    bool OnSlope()
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, 3.5f))
+        {
+            float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
+            SlopeAngle = angle;
+            movingUpSlope = (Mathf.Round(rb.velocity.y) > 0f);
+            return angle < maxSlopeAngle && angle != 0;
+        }
+
+        movingUpSlope = false;
+        return false;
+    }
+    
+    private Vector3 GetSlopeMoveDirection()
+    {
+        return Vector3.ProjectOnPlane(PlayerVector, slopeHit.normal).normalized;
+    }
+
+    #endregion
 
     #region Unity Methods
 
@@ -76,6 +117,9 @@ public class PufferFishController : SerializedMonoBehaviour
     {
         defaultScale = anim.transform.localScale;
         camShaker = CamShake.Instance;
+
+        defaultDrag = rb.drag;
+        defaultAngularDrag = rb.angularDrag;
     }
 
     void Start()
@@ -90,6 +134,13 @@ public class PufferFishController : SerializedMonoBehaviour
     void Update()
     {
         currentSpeed = rb.velocity.magnitude;
+        isSpeeding = (currentSpeed >= speed - 1); // Determine the current speed state
+
+        if (isSpeeding != previousSpeedState)
+        {
+            _particleController.ToggleSpeedParticles(isSpeeding);
+            previousSpeedState = isSpeeding;
+        }
         
         HandleInput();
         HandleZoom();
@@ -97,12 +148,11 @@ public class PufferFishController : SerializedMonoBehaviour
         GroundChecker();
         if (popping) return;
 
+        Slope();
         MoveCharacter();
         GravityExtra();
         RotateCharacter();
-
     }
-
 
     #endregion
 
@@ -114,6 +164,7 @@ public class PufferFishController : SerializedMonoBehaviour
     }
     private void HandleInput()
     {
+        debugDownKey = Input.GetKey(KeyCode.LeftShift);
         if (Input.GetButtonDown("Jump"))
         {
             if (!popping)
@@ -125,22 +176,25 @@ public class PufferFishController : SerializedMonoBehaviour
 
     private void StartPopping()
     {
-        //rb.constraints = RigidbodyConstraints.None;
-
         foreach (var magnet in magnetHover)
         {
             magnet.Activated = false;
         }
         
         popping = true;
+        
+        if(isSpeeding) setPopDrag();
+        
         anim.SetBool("Popping", true);
     }
 
     public void ProcessBouncyTransform()
     {
         anim.transform.localScale = defaultScale * popScale;
-        Jump(jumpForce);
-        if (valueX != 0 || valueY != 0)
+
+        if (debugDownKey) Jump(jumpForce);
+        
+        if ((valueX != 0 || valueY != 0) && isGrounded)
         {
             Vector3 direction = rb.velocity.normalized;
             rb.AddForce(direction * boostForce, ForceMode.Impulse);
@@ -156,9 +210,13 @@ public class PufferFishController : SerializedMonoBehaviour
             magnet.Activated = true;
         }
         
-        Jump(4);
+        Jump(jumpForce);
         StartCoroutine(Balance());
         popping = false;
+
+        rb.drag = defaultDrag;
+        rb.angularDrag = defaultAngularDrag;
+        
         anim.SetBool("Popping", false);
     }
 
@@ -191,20 +249,19 @@ public class PufferFishController : SerializedMonoBehaviour
         }
 
         Vector3 moveVelocity = moveDirection * speed;
-        Vector3 move = new Vector3(moveVelocity.x, 0, moveVelocity.z);
+        PlayerVector = new Vector3(moveVelocity.x, 0, moveVelocity.z);
         
         if (popping)
-            move = new Vector3(moveVelocity.x * airstrafe, 0, moveVelocity.z * airstrafe);
+            PlayerVector = new Vector3(moveVelocity.x * airstrafe, 0, moveVelocity.z * airstrafe);
         
-        rb.AddForce(move, ForceMode.Acceleration);
+        rb.AddForce(PlayerVector, ForceMode.Acceleration);
     }
 
     public void Jump(float jumpForceParam)
     {
-        //if(!isGrounded) return;
-        rb.AddForce(Vector3.up * jumpForceParam, ForceMode.Impulse);
-        
         rb.AddTorque((transform.right + transform.up) * 2f, ForceMode.Impulse);
+        if(!isGrounded) return;
+        rb.AddForce(Vector3.up * jumpForceParam, ForceMode.Impulse);
     }
 
     private IEnumerator Balance()
@@ -227,7 +284,6 @@ public class PufferFishController : SerializedMonoBehaviour
         //rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
-    
     void GroundChecker()
     {
         isGrounded = (Physics.SphereCast(transform.position, 0.1f,
@@ -241,13 +297,30 @@ public class PufferFishController : SerializedMonoBehaviour
                 LayerMask.GetMask("Ground")));
         }
         else 
-            allowFootPlacement = false;
+            allowFootPlacement = OnSlope();
+    }
+    
+    void Slope()
+    {
+        debugSlope = OnSlope();
+        if (debugSlope && !exitingSlope)
+        {
+            rb.AddForce(speed * 1.75f * GetSlopeMoveDirection(), ForceMode.Acceleration);
+
+            if (rb.velocity.y > 0)
+                rb.AddForce(Vector3.down * 10f, ForceMode.Acceleration);
+        }
+    }
+
+    void setPopDrag()
+    {
+        rb.drag = PopDrag;
+        rb.angularDrag = PopAngularDrag;
     }
     
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("collide: " + other.gameObject.name);
-        if (currentSpeed > 10f && !isGrounded)
+        if (currentSpeed > 10f && !isGrounded && popping)
         {
             camShaker.ActivateShake();
             Debug.Log("shake");
