@@ -20,7 +20,7 @@ MonoBehaviour:
     prefab: {fileID: 2175526355058987731, guid: 0891067bda51c2b429404b8f86336eb8,
       type: 3}
   - name: WallDoor
-    prefab: {fileID: 2379404163017910288, guid: 5b645081754f47a45b621a61d5986bfa,
+    prefab: {fileID: 2379404163017910288, guid: 2ace0040450ae6e47af1799ef4e12805,
       type: 3}
   - name: WallQuar
     prefab: {fileID: 8142895447478198982, guid: caa196c5aaa28a141bb1411c44bba23f,
@@ -32,19 +32,19 @@ MonoBehaviour:
     prefab: {fileID: 2705230352342077003, guid: 9f84c7939a66444429e58b4141397e26,
       type: 3}
   - name: WallAngle1
-    prefab: {fileID: 3024807953420791248, guid: c30ec6987845c5040a92327df3a4d524,
+    prefab: {fileID: 3024807953420791248, guid: b2cbe1d1474cbb2469a1c12c9598fd75,
       type: 3}
   - name: WallAngle2
     prefab: {fileID: 3753184858576927932, guid: b0dc0c79c405c6d4089023bb85763766,
       type: 3}
   - name: HalfWallQuar
-    prefab: {fileID: 5221851982158325808, guid: 71cb9a278c3500b4cb933c57668391ce,
+    prefab: {fileID: 5221851982158325808, guid: a839d407b56cbbf49baf6b7ff7792cae,
       type: 3}
   - name: HalfWall
-    prefab: {fileID: 7159540738705993374, guid: ab663e28a1e8c704c872d2b43f98ddc1,
+    prefab: {fileID: 7159540738705993374, guid: 265a4895485495346bc9b8ed817ef427,
       type: 3}
   - name: HalfWallHalf
-    prefab: {fileID: 8651367677409242381, guid: 60081e3fde0034d42a70790676eaf64e,
+    prefab: {fileID: 8651367677409242381, guid: 2e0d8d5a12957ca488b263a0f8585870,
       type: 3}
   - name: HalfWallAngle1
     prefab: {fileID: 8184098277847700203, guid: 1e8b687f2047b0d46b3b1fbfc49e3051,

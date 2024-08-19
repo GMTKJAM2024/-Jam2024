@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5989774026433646773}
-  - component: {fileID: -5479902736970754331}
+  - component: {fileID: 3554289638889111608}
   m_Layer: 0
-  m_Name: WallBigWindow
+  m_Name: WallBigWindow 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 924372795239503103}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &-5479902736970754331
+--- !u!64 &3554289638889111608
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
