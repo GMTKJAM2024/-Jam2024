@@ -718,7 +718,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 359408363}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0045260936, y: 0.8788769, z: 0.47695428, w: -0.00834015}
+  m_LocalRotation: {x: 0.6351754, y: 0.3015726, z: 0.29635456, w: -0.64635915}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2003,7 +2003,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 1800812437}
+  m_LookAt: {fileID: 0}
   m_Follow: {fileID: 2128518454}
   m_CommonLens: 1
   m_Lens:
@@ -2357,57 +2357,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1401421517}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1800812435
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1800812437}
-  - component: {fileID: 1800812436}
-  m_Layer: 0
-  m_Name: Target Group
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1800812436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1800812435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5eb80d8e62d9d145bb50fb783c0f731, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PositionMode: 0
-  m_RotationMode: 1
-  m_UpdateMethod: 2
-  m_Targets:
-  - target: {fileID: 2128518454}
-    weight: 1
-    radius: 1
---- !u!4 &1800812437
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1800812435}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1807680152 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7456936898753590717, guid: 4f956e55016b168448c4a0ef7439d9ad,
@@ -3328,7 +3277,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ac550f3821d5e364d8374ebd3bec50de, type: 2}
+  - {fileID: 2100000, guid: e09f8104c80ec6c408de5b07293f8894, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4008,5 +3957,4 @@ SceneRoots:
   - {fileID: 1590156221}
   - {fileID: 1834737765}
   - {fileID: 150318726}
-  - {fileID: 1800812437}
   - {fileID: 1666826565}
