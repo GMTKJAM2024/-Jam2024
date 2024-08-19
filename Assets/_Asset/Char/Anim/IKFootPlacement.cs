@@ -94,7 +94,7 @@ public class LegIKControl : MonoBehaviour
         }
 
         elapsedTime = 0f;
-        while (elapsedTime < totalDuration && !_pufferMovement.isGrounded)
+        while (elapsedTime < totalDuration && !_pufferMovement.allowFootPlacement)
         {
             float curveTime = elapsedTime / totalDuration;
             Vector3 nextPos = Vector3.Lerp(startPos, targetPoint, curveTime);
@@ -107,7 +107,6 @@ public class LegIKControl : MonoBehaviour
         legTargets[index].position = targetPoint;
         lastLegPositions[index] = legTargets[index].position;
         legMoving[0] = false;
-        //MovementSound.Instance.PLaySoundAt(legTargets[index].position);
     }
 
     IEnumerator LegsOnAir()
