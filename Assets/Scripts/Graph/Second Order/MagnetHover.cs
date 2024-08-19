@@ -28,8 +28,6 @@ public class MagnetHover : MonoBehaviour
     [FoldoutGroup("Magnet Settings")]
     public float KeepDistance = 2;
     [FoldoutGroup("Magnet Settings")]
-    public Vector3 DampingForce;
-    [FoldoutGroup("Magnet Settings")]
     public float MagnetForce = 10;
     [FoldoutGroup("Magnet Settings")]
     public LayerMask surface;
@@ -41,13 +39,15 @@ public class MagnetHover : MonoBehaviour
     [FoldoutGroup("Debug and Setup")]
     public bool GizmosDraw = true;
     [FoldoutGroup("Debug and Setup")]
+    public bool Hitted;
+    [FoldoutGroup("Debug and Setup")]
     [ReadOnly] public float currentDistance;
     [FoldoutGroup("Debug and Setup")]
     public Rigidbody rb;
 
     private Vector3 hoverSurface;
     private float lastHitDis;
-
+    
     private void FixedUpdate()
     {
         SurfaceHover(-transform.up);
@@ -55,16 +55,17 @@ public class MagnetHover : MonoBehaviour
 
     void SurfaceHover(Vector3 normalSurface)
     {
-        if (rb == null) return;
+        if(rb == null) return;
 
         Vector3 HoverNormal = Vector3.zero;
         Vector3 ForceApply = Vector3.zero;
         RaycastHit hit;
         hoverSurface = normalSurface;
         float DistancePercentage = 0;
-        if (Physics.Raycast(rb.transform.position, hoverSurface, out hit, KeepDistance, surface))
+        if (Physics.Raycast(transform.position, hoverSurface, out hit, KeepDistance, surface))
         {
-            currentDistance = Vector3.Distance(rb.transform.position, hit.point);
+            //Debug
+            currentDistance = Vector3.Distance(transform.position,hit.point);
 
             switch (ForceType)
             {
@@ -78,14 +79,14 @@ public class MagnetHover : MonoBehaviour
                     DistancePercentage = 1; //Linear
                     break;
             }
-
-            if (useNormal) HoverNormal = hit.normal;
+            
+            if(useNormal) HoverNormal = hit.normal;
             else HoverNormal = hoverSurface;
         }
         else
         {
             //Debug
-            currentDistance = Vector3.Distance(rb.transform.position, hit.point);
+            currentDistance = Vector3.Distance(transform.position,hit.point);
 
             switch (ForceType)
             {
@@ -99,8 +100,8 @@ public class MagnetHover : MonoBehaviour
                     DistancePercentage = 1; //Linear
                     break;
             }
-
-            if (useNormal) HoverNormal = hit.normal;
+            
+            if(useNormal) HoverNormal = hit.normal;
             else HoverNormal = hoverSurface;
         }
 
@@ -117,23 +118,21 @@ public class MagnetHover : MonoBehaviour
             }
 
             ForceApply *= Time.fixedDeltaTime;
-            DampingForce = -rb.velocity * 0.5f;
-            if (CenterMode)
-                rb.AddForceAtPosition(ForceApply + DampingForce, rb.centerOfMass);
+        
+            if(CenterMode)
+                rb.AddForceAtPosition(ForceApply, rb.centerOfMass);
             else
-                rb.AddForceAtPosition(ForceApply + DampingForce, rb.transform.position);
+                rb.AddForceAtPosition(ForceApply, transform.position);
         }
-
     }
-
     void OnDrawGizmos()
     {
-        if (!GizmosDraw) return;
-
+        if(!GizmosDraw) return;
+        
         RaycastHit hit;
-        bool hasHit = (Physics.Raycast(rb.transform.position, hoverSurface, out hit, KeepDistance, surface));
+        Hitted = (Physics.Raycast(transform.position, hoverSurface, out hit, KeepDistance, surface));
 
-        if (!hasHit)
+        if (!Hitted)
         {
             switch (Type)
             {
@@ -144,12 +143,12 @@ public class MagnetHover : MonoBehaviour
                     Gizmos.color = Color.green; // Set color to light blue if hit
                     break;
             }
-            Gizmos.DrawLine(rb.transform.position, rb.transform.position - (rb.transform.up * KeepDistance)); // Draw a line from the sphere to the hit point
+            Gizmos.DrawLine(transform.position, transform.position - (transform.up * KeepDistance)); // Draw a line from the sphere to the hit point
         }
         else
         {
             Gizmos.color = Color.red; // Set color to red if no hit
-            Gizmos.DrawLine(rb.transform.position, rb.transform.position - (rb.transform.up * KeepDistance)); // Draw a line from the sphere to the hit point
+            Gizmos.DrawLine(transform.position, transform.position - (transform.up * KeepDistance)); // Draw a line from the sphere to the hit point
         }
     }
 }

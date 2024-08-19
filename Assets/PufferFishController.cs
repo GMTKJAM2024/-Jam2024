@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using Sirenix.OdinInspector; // Thêm namespace Odin Inspector
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PufferFishController : SerializedMonoBehaviour
 {
@@ -12,11 +14,7 @@ public class PufferFishController : SerializedMonoBehaviour
     [FoldoutGroup("Character Settings/Movement Settings")]
     [SerializeField] private Rigidbody rb;
     [FoldoutGroup("Character Settings/Movement Settings")]
-    [SerializeField] private MagnetHover magnetHover;
-    [FoldoutGroup("Character Settings/Movement Settings")]
-    [SerializeField] private float speed = 5f;
-    [FoldoutGroup("Character Settings/Movement Settings")]
-    [SerializeField] private float boostForce = 5f;
+    [SerializeField] private List<MagnetHover> magnetHover;
 
     [FoldoutGroup("Character Settings/Rotation Settings")]
     [SerializeField] private float mouseSensitivity = 100f;
@@ -25,9 +23,6 @@ public class PufferFishController : SerializedMonoBehaviour
     [FoldoutGroup("Character Settings/Rotation Settings")]
     [SerializeField] private Quaternion originalRotation;
     private Quaternion targetRotation;
-
-    [FoldoutGroup("Character Settings/Jump Settings")]
-    [SerializeField] private float jumpForce = 5f;
 
     [FoldoutGroup("Character Settings/Animation Settings")]
     [SerializeField] private Animator anim;
@@ -45,43 +40,66 @@ public class PufferFishController : SerializedMonoBehaviour
     [SerializeField] private float minZoom = 15f;
     [FoldoutGroup("Camera Settings/Zoom Settings")]
     [SerializeField] private float maxZoom = 90f;
+    
+    
+    [FoldoutGroup("Stats")]
+    public float groundCheckDis = 2.5f;
+    [FoldoutGroup("Stats")]
+    public float popScale = 1.5f;
+    [FoldoutGroup("Stats")]
+    public float airstrafe = 0.2f;
+    [FoldoutGroup("Stats")]
+    [SerializeField] private float speed = 5f;
+    [FoldoutGroup("Stats")]
+    [SerializeField] private float boostForce = 5f;
+    [FoldoutGroup("Stats/Jump")]
+    [SerializeField] private float jumpForce = 5f;
+
+
+    [FoldoutGroup("Debug")]
+    public bool popping, isGrounded, allowFootPlacement;
+    [FoldoutGroup("Debug")]
+    public float valueX, valueY;
+    [FoldoutGroup("Debug")]
+    [ReadOnly] [SerializeField] float currentSpeed;
+    private RaycastHit hit;
+    private Vector3 defaultScale;
+    private CamShake camShaker;
 
     #endregion
 
-    #region Private Fields
 
-    private bool isGrounded;
-    private bool popping;
-    private float horizontal;
-    private float vertical;
-
-    #endregion
 
     #region Unity Methods
+
+    private void Awake()
+    {
+        defaultScale = anim.transform.localScale;
+        camShaker = CamShake.Instance;
+    }
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        if (rb == null)
-        {
+        if (rb == null) 
             rb = GetComponent<Rigidbody>();
-        }
     }
 
     void Update()
     {
+        currentSpeed = rb.velocity.magnitude;
+        
         HandleInput();
         HandleZoom();
-        if (popping)
-        {
-            return;
-        }
 
+        GroundChecker();
+        if (popping) return;
+
+        MoveCharacter();
         GravityExtra();
         RotateCharacter();
-        MoveCharacter();
 
     }
 
@@ -92,57 +110,56 @@ public class PufferFishController : SerializedMonoBehaviour
 
     private void GravityExtra()
     {
-        if (!isGrounded)
-        {
-            rb.AddForce(Vector3.down * 9.81f, ForceMode.Acceleration);
-        }
+        rb.AddForce(Vector3.down * 9.81f, ForceMode.Acceleration);
     }
     private void HandleInput()
     {
         if (Input.GetButtonDown("Jump"))
         {
-            anim.SetTrigger("Pop");
             if (!popping)
-            {
                 StartPopping();
-            }
             else
-            {
                 StopPopping();
-            }
         }
     }
 
     private void StartPopping()
     {
-        rb.constraints = RigidbodyConstraints.None;
-        magnetHover.gameObject.SetActive(false);
+        //rb.constraints = RigidbodyConstraints.None;
+
+        foreach (var magnet in magnetHover)
+        {
+            magnet.Activated = false;
+        }
+        
         popping = true;
+        anim.SetBool("Popping", true);
     }
 
     public void ProcessBouncyTransform()
     {
-        anim.transform.localScale *= 1.2f;
-        if (horizontal != 0 || vertical != 0)
+        anim.transform.localScale = defaultScale * popScale;
+        Jump(jumpForce);
+        if (valueX != 0 || valueY != 0)
         {
-            Jump(jumpForce);
             Vector3 direction = rb.velocity.normalized;
             rb.AddForce(direction * boostForce, ForceMode.Impulse);
         }
-        else
-        {
-            Jump(jumpForce);
-        }
-
     }
 
     private void StopPopping()
     {
-        anim.transform.localScale /= 1.2f;
-        magnetHover.gameObject.SetActive(true);
+        anim.transform.localScale = defaultScale;
+        
+        foreach (var magnet in magnetHover)
+        {
+            magnet.Activated = true;
+        }
+        
         Jump(4);
-        StartCoroutine(RotateBackToOriginal());
+        StartCoroutine(Balance());
         popping = false;
+        anim.SetBool("Popping", false);
     }
 
     private void RotateCharacter()
@@ -160,13 +177,13 @@ public class PufferFishController : SerializedMonoBehaviour
 
     private void MoveCharacter()
     {
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
+        valueX = Input.GetAxis("Horizontal");
+        valueY = Input.GetAxis("Vertical");
 
-        Vector3 movementInput = new Vector3(horizontal, 0f, vertical).normalized;
-        Vector3 moveDirection = mainCam.transform.forward * movementInput.z + mainCam.transform.right * movementInput.x;
+        Vector3 movementInput = new Vector3(valueX, 0f, valueY).normalized;
+        Vector3 moveDirection = mainCam.transform.forward.normalized * movementInput.z + mainCam.transform.right.normalized * movementInput.x;
         moveDirection.y = 0f;
-
+        
         if (moveDirection != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
@@ -174,15 +191,23 @@ public class PufferFishController : SerializedMonoBehaviour
         }
 
         Vector3 moveVelocity = moveDirection * speed;
-        rb.velocity = new Vector3(moveVelocity.x, rb.velocity.y, moveVelocity.z);
+        Vector3 move = new Vector3(moveVelocity.x, 0, moveVelocity.z);
+        
+        if (popping)
+            move = new Vector3(moveVelocity.x * airstrafe, 0, moveVelocity.z * airstrafe);
+        
+        rb.AddForce(move, ForceMode.Acceleration);
     }
 
-    private void Jump(float jumpForceParam)
+    public void Jump(float jumpForceParam)
     {
+        //if(!isGrounded) return;
         rb.AddForce(Vector3.up * jumpForceParam, ForceMode.Impulse);
+        
+        rb.AddTorque((transform.right + transform.up) * 2f, ForceMode.Impulse);
     }
 
-    private IEnumerator RotateBackToOriginal()
+    private IEnumerator Balance()
     {
         float elapsedTime = 0f;
         float duration = 0.5f;
@@ -199,23 +224,33 @@ public class PufferFishController : SerializedMonoBehaviour
         }
 
         rb.rotation = targetRotation;
-        rb.constraints = RigidbodyConstraints.FreezeRotation;
+        //rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
-
-    private void OnCollisionEnter(Collision collision)
+    
+    void GroundChecker()
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        isGrounded = (Physics.SphereCast(transform.position, 0.1f,
+                Vector3.down, out hit, groundCheckDis,
+                        LayerMask.GetMask("Ground")));
+
+        if (isGrounded && !popping)
         {
-            isGrounded = true;
+            allowFootPlacement = (Physics.SphereCast(transform.position, 0.1f,
+                -transform.up, out hit, groundCheckDis,
+                LayerMask.GetMask("Ground")));
         }
+        else 
+            allowFootPlacement = false;
     }
-
-    private void OnCollisionExit(Collision collision)
+    
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        Debug.Log("collide: " + other.gameObject.name);
+        if (currentSpeed > 10f && !isGrounded)
         {
-            isGrounded = false;
+            camShaker.ActivateShake();
+            Debug.Log("shake");
         }
     }
 
