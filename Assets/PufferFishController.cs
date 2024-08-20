@@ -138,7 +138,7 @@ public class PufferFishController : SerializedMonoBehaviour
     void Update()
     {
         currentSpeed = rb.velocity.magnitude;
-        isSpeeding = (currentSpeed > (speed * MoveMultiplier) - 0.5f && (speed * MoveMultiplier) > 10); // Determine the current speed state
+        isSpeeding = (currentSpeed > (speed * MoveMultiplier) - 0.5f && (speed * MoveMultiplier) > 20); // Determine the current speed state
 
         if (isSpeeding != previousSpeedState)
         {
@@ -201,6 +201,7 @@ public class PufferFishController : SerializedMonoBehaviour
         
         if ((valueX != 0 || valueY != 0) && isGrounded && BoostSkill)
         {
+            Debug.Log("Boost");
             Vector3 direction = rb.velocity.normalized;
             rb.AddForce(direction * (boostForce * MoveMultiplier), ForceMode.Impulse);
         }

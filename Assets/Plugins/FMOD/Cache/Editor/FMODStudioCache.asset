@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: Jam2024FMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638597562357012436
+  lastModified: 638597598525008537
   FileSizes:
   - Name: Desktop
     Value: 3207744
@@ -97,7 +97,7 @@ MonoBehaviour:
   - {fileID: -9122732848961379887}
   StringsBanks:
   - {fileID: 5366120097702689237}
-  cacheTime: 638597562357052439
+  cacheTime: 638597598525023536
   cacheVersion: 131618
 --- !u!114 &2075758612712609115
 MonoBehaviour:
@@ -181,7 +181,7 @@ MonoBehaviour:
   Path: Jam2024FMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638597562357052439
+  lastModified: 638597598525023536
   FileSizes:
   - Name: Desktop
     Value: 814

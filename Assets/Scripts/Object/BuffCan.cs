@@ -10,17 +10,13 @@ public enum BuffType
 
 public class BuffCan : MonoBehaviour
 {
-    private Animator _animator;
+    public Animator _animator;
     public BuffType Type;
     public float modify;
     public float modify2;
 
     public bool locked;
 
-    public void Awake()
-    {
-        _animator = GetComponent<Animator>();
-    }
 
     void AddBuff(PufferFishController controller)
     {
@@ -35,14 +31,15 @@ public class BuffCan : MonoBehaviour
                 break;
             case BuffType.Boost:
                 controller.BoostSkill = true;
-                controller.ScaleParent.transform.localScale += Vector3.one * modify;
+                //controller.ScaleParent.transform.localScale += Vector3.one * modify;
+                controller.popScale += modify;
                 
                 controller.boostForce += modify2;
                 //if (controller.popScale < 1.1f) controller.popScale = 1.1f;
                 break;
         }
         
-        Debug.Log(Type);
+        //Debug.Log(Type);
         locked = true;
         
         _animator.SetTrigger("Shrink");

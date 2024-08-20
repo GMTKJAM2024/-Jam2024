@@ -10,7 +10,7 @@ public class GraphInspector : Editor
     private AlgorithmSelector_SO algorithmSelector = new AlgorithmSelector_SO();
     private ISecondOrderSystem _selectedAlgorithm = new SO_Calc_None();
 
-    public Graph _graph;
+    //public Graph _graph;
     //private SO_Calc_ZeroPole _soCalcZeroPole = new SO_Calc_ZeroPole();
     private SerializedObject _serializedObject;
     private SerializedProperty _PosToggleProperty;
@@ -80,10 +80,10 @@ public class GraphInspector : Editor
         RotColor = EditorGUILayout.ColorField("RotLine Color", RotColor);
         ScaleColor = EditorGUILayout.ColorField("ScaleLine Color", ScaleColor);
 
-        _graph = new Graph(0, _graphMaxX, 0, _graphMaxY);
+        //_graph = new Graph(0, _graphMaxX, 0, _graphMaxY);
 
-        _graph.HorizontalAxisUnits = "s";
-        _graph.LabelStyle = "label";
+        //_graph.HorizontalAxisUnits = "s";
+        //_graph.LabelStyle = "label";
 
         EditorGUILayout.Space(5);
         // Draw the sine graph in the Inspector
@@ -144,7 +144,7 @@ public class GraphInspector : Editor
         GUILayout.Label("Graph", EditorStyles.boldLabel);
         EditorGUILayout.Space(5);
         Rect graphRect = GUILayoutUtility.GetRect(0, 100, GUILayout.ExpandWidth(true));
-        _graph.Draw(graphRect);
+        //_graph.Draw(graphRect);
         if (GUI.changed) Repaint();
     }
 
@@ -161,7 +161,7 @@ public class GraphInspector : Editor
         {
             ySamples = CalculateLine_SelectedAlgorithm(_PosfrequencyProperty, _PosdampingProperty,
                                                                     _PosResponsivenessProperty, _PosDeltaTimeScaleProperty);
-            _graph.UpdateLine("PosLine", ySamples, PosColor);
+            //_graph.UpdateLine("PosLine", ySamples, PosColor);
         }
 
 
@@ -169,14 +169,14 @@ public class GraphInspector : Editor
         {
             ySamples = CalculateLine_SelectedAlgorithm(_RotfrequencyProperty, _RotdampingProperty,
                 _RotResponsivenessProperty, _RotDeltaTimeScaleProperty);
-            _graph.UpdateLine("RotLine", ySamples, RotColor);
+            //_graph.UpdateLine("RotLine", ySamples, RotColor);
         }
 
         if (_ScaleToggleProperty.boolValue)
         {
             ySamples = CalculateLine_SelectedAlgorithm(_ScalefrequencyProperty, _ScaledampingProperty,
                                                                      _ScaleResponsivenessProperty, _ScaleDeltaTimeScaleProperty);
-            _graph.UpdateLine("ScaleLine", ySamples, ScaleColor);
+            //_graph.UpdateLine("ScaleLine", ySamples, ScaleColor);
         }
     }
 

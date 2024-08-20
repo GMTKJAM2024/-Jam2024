@@ -47,7 +47,7 @@ public class SO_Transform : MonoBehaviour
     [Space(10)]
     [SerializeField] private Transform target;
     [Space(10)]
-    public GraphVisualize GV;
+    //public GraphVisualize GV;
     private SO_Position_Handler positionHandler = new SO_Position_Handler();
     private SO_Quaternion_Handler rotationHandler = new SO_Quaternion_Handler();
     private SO_Scale_Handler scaleHandler = new SO_Scale_Handler();
@@ -57,7 +57,7 @@ public class SO_Transform : MonoBehaviour
     private Vector3 initialScale;
     private void Awake()
     {
-        GV = this.gameObject.GetComponent<GraphVisualize>();
+        //GV = this.gameObject.GetComponent<GraphVisualize>();
         
         initialPosition = transform.position;
         initialRotation = transform.rotation;
@@ -76,9 +76,9 @@ public class SO_Transform : MonoBehaviour
         positionHandler.Initialize(PosFrequency, PosDamping, PosResponsiveness, PosDeltaTimeScale, initialPosition, ASelector, target.transform.position);
         rotationHandler.Initialize(RotFrequency, RotDamping, RotResponsiveness, RotDeltaTimeScale, initialRotation, ASelector, target.transform.rotation);
         scaleHandler.Initialize(ScaleFrequency, ScaleDamping, ScaleResponsiveness, ScaleDeltaTimeScale, initialScale, ASelector,target.transform.localScale);
-        GV.UpdateOnGUI_Pos(PosFrequency, PosDamping, PosResponsiveness, PosDeltaTimeScale * 0.015f, ASelector, PositionToggle);
-        GV.UpdateOnGUI_Rot(RotFrequency, RotDamping, RotResponsiveness, RotDeltaTimeScale  * 0.015f, ASelector, RotationToggle);
-        GV.UpdateOnGUI_Scale(ScaleFrequency, ScaleDamping, ScaleResponsiveness, ScaleDeltaTimeScale * 0.015f, ASelector, ScaleToggle);
+        //GV.UpdateOnGUI_Pos(PosFrequency, PosDamping, PosResponsiveness, PosDeltaTimeScale * 0.015f, ASelector, PositionToggle);
+        //GV.UpdateOnGUI_Rot(RotFrequency, RotDamping, RotResponsiveness, RotDeltaTimeScale  * 0.015f, ASelector, RotationToggle);
+        //GV.UpdateOnGUI_Scale(ScaleFrequency, ScaleDamping, ScaleResponsiveness, ScaleDeltaTimeScale * 0.015f, ASelector, ScaleToggle);
 
     }
 
