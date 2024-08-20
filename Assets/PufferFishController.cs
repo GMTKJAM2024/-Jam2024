@@ -43,16 +43,18 @@ public class PufferFishController : SerializedMonoBehaviour
     [SerializeField] private float maxZoom = 90f;
     
     
+    [FoldoutGroup("Stats/Buff")]
+    public float MoveMultiplier = 0.75f, JumpMultiplier = 0.75f;
+    [FoldoutGroup("Stats/Skill")]
+    public bool JumpSkill, BoostSkill;
     [FoldoutGroup("Stats")]
     public float groundCheckDis = 2.5f;
     [FoldoutGroup("Stats")]
     public float popScale = 1.5f;
     [FoldoutGroup("Stats")]
-    public float airstrafe = 0.2f;
+    [SerializeField] private float speed = 15f;
     [FoldoutGroup("Stats")]
-    [SerializeField] private float speed = 5f;
-    [FoldoutGroup("Stats")]
-    [SerializeField] private float boostForce = 5f;
+    [SerializeField] private float boostForce = 20f;
     [FoldoutGroup("Stats/Jump")]
     [SerializeField] private float jumpForce = 5f;
     [FoldoutGroup("Stats/Drag")]
@@ -116,7 +118,6 @@ public class PufferFishController : SerializedMonoBehaviour
     private void Awake()
     {
         defaultScale = anim.transform.localScale;
-        camShaker = CamShake.Instance;
 
         defaultDrag = rb.drag;
         defaultAngularDrag = rb.angularDrag;
@@ -124,6 +125,7 @@ public class PufferFishController : SerializedMonoBehaviour
 
     void Start()
     {
+        camShaker = CamShake.Instance;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
@@ -134,7 +136,7 @@ public class PufferFishController : SerializedMonoBehaviour
     void Update()
     {
         currentSpeed = rb.velocity.magnitude;
-        isSpeeding = (currentSpeed >= speed - 1); // Determine the current speed state
+        isSpeeding = (currentSpeed >= speed * MoveMultiplier - 1); // Determine the current speed state
 
         if (isSpeeding != previousSpeedState)
         {
@@ -194,10 +196,10 @@ public class PufferFishController : SerializedMonoBehaviour
 
         if (debugDownKey) Jump(jumpForce);
         
-        if ((valueX != 0 || valueY != 0) && isGrounded)
+        if ((valueX != 0 || valueY != 0) && isGrounded && BoostSkill)
         {
             Vector3 direction = rb.velocity.normalized;
-            rb.AddForce(direction * boostForce, ForceMode.Impulse);
+            rb.AddForce(direction * (boostForce * MoveMultiplier), ForceMode.Impulse);
         }
     }
 
@@ -248,11 +250,11 @@ public class PufferFishController : SerializedMonoBehaviour
             pufferChar.localRotation = Quaternion.Slerp(pufferChar.rotation, targetRotation, Time.deltaTime * rotationSpeed);
         }
 
-        Vector3 moveVelocity = moveDirection * speed;
+        Vector3 moveVelocity = moveDirection * (speed * MoveMultiplier);
         PlayerVector = new Vector3(moveVelocity.x, 0, moveVelocity.z);
         
         if (popping)
-            PlayerVector = new Vector3(moveVelocity.x * airstrafe, 0, moveVelocity.z * airstrafe);
+            PlayerVector = new Vector3(moveVelocity.x, 0, moveVelocity.z);
         
         rb.AddForce(PlayerVector, ForceMode.Acceleration);
     }
@@ -260,7 +262,7 @@ public class PufferFishController : SerializedMonoBehaviour
     public void Jump(float jumpForceParam)
     {
         rb.AddTorque((transform.right + transform.up) * 2f, ForceMode.Impulse);
-        if(!isGrounded) return;
+        if(!isGrounded || !JumpSkill) return;
         rb.AddForce(Vector3.up * jumpForceParam, ForceMode.Impulse);
     }
 
@@ -305,7 +307,7 @@ public class PufferFishController : SerializedMonoBehaviour
         debugSlope = OnSlope();
         if (debugSlope && !exitingSlope)
         {
-            rb.AddForce(speed * 1.75f * GetSlopeMoveDirection(), ForceMode.Acceleration);
+            rb.AddForce((speed * 1.75f * MoveMultiplier) * GetSlopeMoveDirection(), ForceMode.Acceleration);
 
             if (rb.velocity.y > 0)
                 rb.AddForce(Vector3.down * 10f, ForceMode.Acceleration);
