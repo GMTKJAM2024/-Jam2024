@@ -1,19 +1,9 @@
 fileFormatVersion: 2
-guid: d6fa308869bec1a498c8df19ae8c90ce
+guid: 989518f01ab4e364ba30d41ff9fbb3fd
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: LightCeilingLamp5
-    second: {fileID: 2100000, guid: 2cf121d1e69e12d45bdba62d5a97022f, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: MetalCeilingLamp5
-    second: {fileID: 2100000, guid: 7bf4f0649ecc773408ec750d46361b1e, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0

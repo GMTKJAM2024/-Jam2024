@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2271907614658131319}
   - component: {fileID: 5978863999952632738}
+  - component: {fileID: 4255338463576993166}
   m_Layer: 6
   m_Name: ModularFloor
   m_TagString: Untagged
@@ -47,6 +48,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabList: {fileID: 11400000, guid: b7382d86877e36c4eae80840d5007a30, type: 2}
   selectedPrefabIndex: 0
+--- !u!64 &4255338463576993166
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2506761123124935318}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!1001 &1674263854004200011
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -160,6 +183,6 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -629719859055844128, guid: 7737f46381731ce4589be15a2f3361c6, type: 3}
