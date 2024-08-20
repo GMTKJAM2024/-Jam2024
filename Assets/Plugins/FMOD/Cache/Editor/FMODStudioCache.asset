@@ -15,10 +15,10 @@ MonoBehaviour:
   Path: Jam2024FMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638593151796658418
+  lastModified: 638597562357012436
   FileSizes:
   - Name: Desktop
-    Value: 1969024
+    Value: 3207744
   Exists: 1
 --- !u!114 &-8283888640013371304
 MonoBehaviour:
@@ -47,6 +47,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 160078
+--- !u!114 &-7080667430151627874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Sea Sound
+  m_EditorClassIdentifier: 
+  Path: event:/Sea Sound
+  Guid:
+    Data1: 147589710
+    Data2: 1335455311
+    Data3: 1777704883
+    Data4: 1973854143
+  Banks:
+  - {fileID: -9122732848961379887}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 105840
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,12 +91,13 @@ MonoBehaviour:
   - {fileID: -9122732848961379887}
   EditorEvents:
   - {fileID: -8283888640013371304}
+  - {fileID: -7080667430151627874}
   EditorParameters: []
   MasterBanks:
   - {fileID: -9122732848961379887}
   StringsBanks:
   - {fileID: 5366120097702689237}
-  cacheTime: 638593151796707863
+  cacheTime: 638597562357052439
   cacheVersion: 131618
 --- !u!114 &2075758612712609115
 MonoBehaviour:
@@ -153,8 +181,8 @@ MonoBehaviour:
   Path: Jam2024FMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638593151796707863
+  lastModified: 638597562357052439
   FileSizes:
   - Name: Desktop
-    Value: 762
+    Value: 814
   Exists: 1
