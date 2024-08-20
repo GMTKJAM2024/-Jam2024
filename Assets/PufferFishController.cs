@@ -13,7 +13,7 @@ public class PufferFishController : SerializedMonoBehaviour
     [TitleGroup("Character Settings")]
     [SerializeField] PufferParticleController _particleController;
     [FoldoutGroup("Character Settings/Movement Settings")]
-    [SerializeField] private Rigidbody rb;
+    [SerializeField] public Rigidbody rb;
     [FoldoutGroup("Character Settings/Movement Settings")]
     [SerializeField] private List<MagnetHover> magnetHover;
 
@@ -54,7 +54,7 @@ public class PufferFishController : SerializedMonoBehaviour
     [FoldoutGroup("Stats")]
     public float popScale = 1.5f;
     [FoldoutGroup("Stats")]
-    [SerializeField] private float speed = 15f;
+    [SerializeField] public float speed = 15f;
     [FoldoutGroup("Stats")]
     [SerializeField] public float boostForce = 20f;
     [FoldoutGroup("Stats/Jump")]
@@ -76,7 +76,7 @@ public class PufferFishController : SerializedMonoBehaviour
     [FoldoutGroup("Debug")]
     public float valueX, valueY;
     [FoldoutGroup("Debug")]
-    [ReadOnly] [SerializeField] float currentSpeed;
+    [ReadOnly] public float currentSpeed;
     [FoldoutGroup("Debug")]
     [SerializeField] bool previousSpeedState, isSpeeding; 
     
@@ -314,6 +314,14 @@ public class PufferFishController : SerializedMonoBehaviour
 
             if (rb.velocity.y > 0)
                 rb.AddForce(Vector3.down * (speed * MoveMultiplier), ForceMode.Acceleration);
+        }
+
+        if (movingUpSlope)
+        {
+            foreach (var magnet in magnetHover)
+            {
+                magnet.Activated = false;
+            }
         }
     }
 
