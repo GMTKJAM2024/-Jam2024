@@ -116,7 +116,7 @@ public class PufferFishController : SerializedMonoBehaviour
     private void Awake()
     {
         defaultScale = anim.transform.localScale;
-        camShaker = CamShake.Instance;
+        
 
         defaultDrag = rb.drag;
         defaultAngularDrag = rb.angularDrag;
@@ -126,7 +126,7 @@ public class PufferFishController : SerializedMonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-
+        camShaker = CamShake.Instance;
         if (rb == null) 
             rb = GetComponent<Rigidbody>();
     }

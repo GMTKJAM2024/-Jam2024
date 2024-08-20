@@ -1,5 +1,52 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9122732848961379887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: Jam2024FMOD/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 638593151796658418
+  FileSizes:
+  - Name: Desktop
+    Value: 1969024
+  Exists: 1
+--- !u!114 &-8283888640013371304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/ChillJazzLofi
+  m_EditorClassIdentifier: 
+  Path: event:/ChillJazzLofi
+  Guid:
+    Data1: -173268904
+    Data2: 1287810926
+    Data3: 245696694
+    Data4: 184084474
+  Banks:
+  - {fileID: -9122732848961379887}
+  IsStream: 1
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 160078
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,16 +60,16 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: 4886286442266231941}
-  - {fileID: 2075758612712609115}
+  - {fileID: 5366120097702689237}
+  - {fileID: -9122732848961379887}
   EditorEvents:
-  - {fileID: 4758740001342674195}
+  - {fileID: -8283888640013371304}
   EditorParameters: []
   MasterBanks:
-  - {fileID: 2075758612712609115}
+  - {fileID: -9122732848961379887}
   StringsBanks:
-  - {fileID: 4886286442266231941}
-  cacheTime: 638593174413196043
+  - {fileID: 5366120097702689237}
+  cacheTime: 638593151796707863
   cacheVersion: 131618
 --- !u!114 &2075758612712609115
 MonoBehaviour:
@@ -87,6 +134,26 @@ MonoBehaviour:
   Name: Master.strings
   StudioPath: bank:/Master.strings
   lastModified: 638593174413196043
+  FileSizes:
+  - Name: Desktop
+    Value: 762
+  Exists: 1
+--- !u!114 &5366120097702689237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: Jam2024FMOD/Build/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638593151796707863
   FileSizes:
   - Name: Desktop
     Value: 762
