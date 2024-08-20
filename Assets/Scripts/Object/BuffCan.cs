@@ -13,6 +13,9 @@ public class BuffCan : MonoBehaviour
     private Animator _animator;
     public BuffType Type;
     public float modify;
+    public float modify2;
+
+    public bool locked;
 
     public void Awake()
     {
@@ -32,11 +35,15 @@ public class BuffCan : MonoBehaviour
                 break;
             case BuffType.Boost:
                 controller.BoostSkill = true;
+                controller.ScaleParent.transform.localScale += Vector3.one * modify;
                 
-                controller.popScale += modify;
-                if (controller.popScale < 1.1f) controller.popScale = 1.1f;
+                controller.boostForce += modify2;
+                //if (controller.popScale < 1.1f) controller.popScale = 1.1f;
                 break;
         }
+        
+        Debug.Log(Type);
+        locked = true;
         
         _animator.SetTrigger("Shrink");
     }
@@ -51,7 +58,7 @@ public class BuffCan : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             PufferFishController controller = other.gameObject.GetComponent<PufferFishController>();
-            if (controller != null)
+            if (controller != null && !locked)
             {
                 AddBuff(controller);
             }

@@ -29,6 +29,8 @@ public class PufferFishController : SerializedMonoBehaviour
     [SerializeField] private Animator anim;
     [FoldoutGroup("Character Settings/Animation Settings")]
     [SerializeField] private Transform pufferChar;
+    [FoldoutGroup("Character Settings/Animation Settings")]
+    [SerializeField] public Transform ScaleParent;
 
     [TitleGroup("Camera Settings")]
     [SerializeField] private Camera mainCam;
@@ -54,7 +56,7 @@ public class PufferFishController : SerializedMonoBehaviour
     [FoldoutGroup("Stats")]
     [SerializeField] private float speed = 15f;
     [FoldoutGroup("Stats")]
-    [SerializeField] private float boostForce = 20f;
+    [SerializeField] public float boostForce = 20f;
     [FoldoutGroup("Stats/Jump")]
     [SerializeField] private float jumpForce = 5f;
     [FoldoutGroup("Stats/Drag")]
@@ -136,7 +138,7 @@ public class PufferFishController : SerializedMonoBehaviour
     void Update()
     {
         currentSpeed = rb.velocity.magnitude;
-        isSpeeding = (currentSpeed >= speed * MoveMultiplier - 1); // Determine the current speed state
+        isSpeeding = (currentSpeed > (speed * MoveMultiplier) - 0.5f && (speed * MoveMultiplier) > 10); // Determine the current speed state
 
         if (isSpeeding != previousSpeedState)
         {
@@ -162,6 +164,7 @@ public class PufferFishController : SerializedMonoBehaviour
 
     private void GravityExtra()
     {
+        if(!OnSlope())
         rb.AddForce(Vector3.down * 9.81f, ForceMode.Acceleration);
     }
     private void HandleInput()
@@ -310,7 +313,7 @@ public class PufferFishController : SerializedMonoBehaviour
             rb.AddForce((speed * 1.75f * MoveMultiplier) * GetSlopeMoveDirection(), ForceMode.Acceleration);
 
             if (rb.velocity.y > 0)
-                rb.AddForce(Vector3.down * 10f, ForceMode.Acceleration);
+                rb.AddForce(Vector3.down * (speed * MoveMultiplier), ForceMode.Acceleration);
         }
     }
 
@@ -325,7 +328,7 @@ public class PufferFishController : SerializedMonoBehaviour
         if (currentSpeed > 10f && !isGrounded && popping)
         {
             camShaker.ActivateShake();
-            Debug.Log("shake");
+            //Debug.Log("shake");
         }
     }
 
