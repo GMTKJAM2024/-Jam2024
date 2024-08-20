@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2271907614658131319}
   - component: {fileID: 5978863999952632738}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ModularFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,6 +59,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Floor1
+      objectReference: {fileID: 0}
+    - target: {fileID: 44506991555505020, guid: ce6a5e125eb21a841816a7aeac0df78b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1506467974760608579, guid: ce6a5e125eb21a841816a7aeac0df78b,
         type: 3}
@@ -109,6 +114,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4972884217948392462, guid: ce6a5e125eb21a841816a7aeac0df78b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
